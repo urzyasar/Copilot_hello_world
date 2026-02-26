@@ -1,0 +1,34 @@
+PROMPT START
+I need a structured Root Cause Analysis (RCA) document for a production issue involving Python multiprocessing on Linux.
+Context:
+Application uses Python multiprocessing.
+Linux default start method is fork.
+Parent process had active API connections (HTTP sockets).
+Child processes inherited open sockets due to fork.
+This caused intermittent API hangs and connections stuck in ESTABLISHED/CLOSE_WAIT.
+Kernel-level validation was performed using /proc/<pid>/fd.
+Socket inode numbers were identical in parent and child processes.
+When switching to spawn using mp.set_start_method("spawn", force=True), the issue was resolved.
+In spawn mode, child processes did not inherit parent socket inodes.
+The issue does not occur in single-process mode.
+Spark sessions were also running but JVM instances were separate.
+Root cause is file descriptor and socket inheritance caused by fork semantics.
+Requirements:
+Write a professional production-grade RCA.
+Include sections:
+Background
+Observed Symptoms
+Investigation Performed
+Technical Root Cause
+Why Single Process Worked
+Why Spawn Resolved It
+Fix Implemented
+Preventive Measures
+Conclusion
+Include technical explanation of:
+fork copying file descriptor table
+kernel socket inode sharing
+why identical inode proves inheritance
+why spawn prevents descriptor inheritance
+Keep the tone suitable for an engineering ticket (Jira/ServiceNow).
+Make it technically precise but clearly structured.
