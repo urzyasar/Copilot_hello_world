@@ -1,0 +1,67 @@
+You are a Staff Data Engineer designing a metadata-driven validation framework.
+
+Context:
+
+- Storage: Delta Lake
+- Query Engine: DuckDB
+- API Layer: FastAPI
+- Data Volume: Billions of sales records
+- Partition Column: business_date
+- Date Range: Up to 180 days
+- Expected Products: Retrieved dynamically from an external API
+- Expected Product Count: 50-200
+
+Business Rules:
+
+1. Exclude weekend dates.
+2. Product ID must not be NULL.
+3. Every business date must contain all expected products.
+4. Return:
+   - valid_dates
+   - invalid_dates
+   - weekend_dates
+   - missing_products_by_date
+
+Architecture Requirements:
+
+- DuckDB should be the execution engine.
+- Python should only orchestrate.
+- Avoid loading fact data into Pandas.
+- Use partition pruning.
+- Minimize memory usage.
+- Scan Delta table once whenever possible.
+- Use CTE-based query planning.
+- Implement a plug-and-play validation rule framework.
+
+Design Requirements:
+
+1. Create project structure.
+2. Create Rule interface.
+3. Create ValidationService.
+4. Create metadata-driven rule registration.
+5. Generate a single SQL execution plan.
+6. Show complete FastAPI implementation.
+7. Show DuckDB implementation.
+8. Explain memory behavior.
+9. Explain query optimization.
+10. Explain failure scenarios.
+11. Provide unit test examples.
+12. Provide observability and monitoring strategy.
+
+Expected Pattern:
+
+Request
+↓
+Metadata Fetch
+↓
+Metadata Registration
+↓
+Rule Compilation
+↓
+CTE Generation
+↓
+Single SQL Execution
+↓
+Validation Result
+
+Provide complete production-ready code and architecture diagrams.
